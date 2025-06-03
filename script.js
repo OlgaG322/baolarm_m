@@ -1,17 +1,23 @@
 const phrases = {
     general: [
-        // ... ваши фразы ...
+        "Конечно, ЭТОТ ролик точно будет последним. Как и предыдущие 47",
+        "Да, давай досмотрим сезон. Сон переоценен, а мешки под глазами — это модно",
+        "'Высплюсь на выходных' — план человека, который не понимает, как работает организм",
+        // ... остальные фразы ...
     ],
     bad: [
-        // ... ваши фразы ...
+        "Доброе утро, зомби! Как спалось целых 4 часа?",
+        // ... остальные фразы ...
     ],
     good: [
-        // ... ваши фразы ...
+        "Ого! Целых 8 часов сна? Ты случайно не перепутал себя с нормальным человеком?",
+        // ... остальные фразы ...
     ]
 };
 
 const sarcasticButtonLabels = [
-    // ... ваши фразы ...
+    "В это время я притворюсь, что ложусь спать",
+    // ... остальные фразы ...
 ];
 
 let sleepStart = null;
@@ -23,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initClock();
     initButtons();
     requestNotifications();
-    setInterval(sendTestPush, 5 * 60 * 1000); // Пуш каждые 5 минут
+    setInterval(sendTestPush, 5 * 60 * 1000); // Тестовые пуши каждые 5 минут
 });
 
 function initClock() {
@@ -34,26 +40,27 @@ function initClock() {
 }
 
 function initButtons() {
-    // Инициализация попапа
-    const hoursSelect = document.getElementById('popupHours');
-    const minutesSelect = document.getElementById('popupMinutes');
-    for(let h=0; h<24; h++) {
-        hoursSelect.innerHTML += `<option value="${h}">${h.toString().padStart(2,'0')}</option>`;
+    const popupHours = document.getElementById('popupHours');
+    const popupMinutes = document.getElementById('popupMinutes');
+    
+    // Заполнение селекторов времени
+    for (let h = 0; h < 24; h++) {
+        popupHours.innerHTML += `<option value="${h}">${h.toString().padStart(2, '0')}</option>`;
     }
-    for(let m=0; m<60; m+=5) {
-        minutesSelect.innerHTML += `<option value="${m}">${m.toString().padStart(2,'0')}</option>`;
+    for (let m = 0; m < 60; m += 5) {
+        popupMinutes.innerHTML += `<option value="${m}">${m.toString().padStart(2, '0')}</option>`;
     }
 
+    // Обработчики событий
     document.getElementById('setAlarm').addEventListener('click', () => {
         document.getElementById('timePopup').style.display = 'flex';
     });
 
     document.getElementById('popupOkBtn').addEventListener('click', () => {
-        const hours = hoursSelect.value.padStart(2,'0');
-        const minutes = minutesSelect.value.padStart(2,'0');
+        const hours = popupHours.value.padStart(2, '0');
+        const minutes = popupMinutes.value.padStart(2, '0');
         alarmTime = `${hours}:${minutes}`;
         document.getElementById('alarmPhrase').textContent = `Дедлайн: ${alarmTime}`;
-        document.getElementById('alarmPhrase').style.textAlign = 'center';
         document.getElementById('timePopup').style.display = 'none';
         resetWakeButton();
         playSound(generalSound);
@@ -61,16 +68,16 @@ function initButtons() {
     });
 
     document.getElementById('sleepBtn').addEventListener('click', () => {
-        if(!alarmTime) return;
+        if (!alarmTime) return;
         sleepStart = new Date();
-        const phrase = sarcasticButtonLabels[Math.floor(Math.random() * sarcasticButtonLabels.length)];
-        document.getElementById('alarmPhrase').textContent = phrase;
-        document.getElementById('alarmPhrase').style.textAlign = 'center';
+        document.getElementById('alarmPhrase').textContent = 
+            sarcasticButtonLabels[Math.floor(Math.random() * sarcasticButtonLabels.length)];
         document.getElementById('sleepStatus').textContent = 'Спит';
+        document.getElementById('comment').textContent = getRandomPhrase('general'); // Фраза в плашке
     });
 
     document.getElementById('wakeBtn').addEventListener('click', () => {
-        if(!sleepStart) return;
+        if (!sleepStart) return;
         const sleepDuration = new Date() - sleepStart;
         const hours = Math.floor(sleepDuration / 3600000);
         const minutes = Math.floor((sleepDuration % 3600000) / 60000);
@@ -82,15 +89,16 @@ function initButtons() {
         btn.style.border = "none";
         btn.style.cursor = "default";
         btn.style.pointerEvents = "none";
-        btn.onmouseenter = function() { btn.style.background = "#1a2c54"; };
-        btn.onmouseleave = function() { btn.style.background = "var(--secondary-color)"; };
         sleepStart = null;
         playSound(alarmSound);
         sendPush('Проснулся!', `Ты спал ${hours}ч ${minutes}м`);
-        // Комментарий внизу
-        const commentType = (hours + minutes/60) >= 7 ? 'good' : 'bad';
-        document.getElementById('comment').textContent = getRandomPhrase(commentType);
-        document.getElementById('sleepStatus').textContent = 'Не спит';
+    });
+
+    // Закрытие попапа при клике вне его
+    window.addEventListener('click', (event) => {
+        if (event.target === document.getElementById('timePopup')) {
+            document.getElementById('timePopup').style.display = 'none';
+        }
     });
 }
 
@@ -103,8 +111,6 @@ function resetWakeButton() {
     btn.style.border = "none";
     btn.style.cursor = "pointer";
     btn.style.pointerEvents = "auto";
-    btn.onmouseenter = function() { btn.style.background = "#1a2c54"; };
-    btn.onmouseleave = function() { btn.style.background = "var(--secondary-color)"; };
 }
 
 function getRandomPhrase(type) {
@@ -115,22 +121,21 @@ function playSound(audio) {
     try {
         audio.currentTime = 0;
         audio.play();
-    } catch(e){}
+    } catch(e) {}
 }
 
 function requestNotifications() {
-    if('Notification' in window) {
+    if ('Notification' in window) {
         Notification.requestPermission();
     }
 }
 
 function sendPush(title, body) {
-    if('Notification' in window && Notification.permission === 'granted') {
+    if ('Notification' in window && Notification.permission === 'granted') {
         new Notification(title, { body, icon: 'icon-512.png' });
     }
 }
 
-// Тестовый push каждые 5 минут
 function sendTestPush() {
     sendPush('Тестовый push', 'Это тестовое уведомление от Баоларма');
 }
