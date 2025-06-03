@@ -95,8 +95,11 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
+    border: none !important;
+    box-shadow: none;
+    outline: none;
+    cursor: pointer;
 }
-
 .alarm-phrase {
     width: 100%;
     text-align: center;
