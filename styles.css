@@ -172,17 +172,34 @@ h1 {
 .wake-btn {
     background: #fff;
     color: var(--primary-color);
-    border: none;
+    border: 1.5px solid var(--primary-color);
+    cursor: pointer;
+    transition: background 0.18s, color 0.18s, border 0.18s;
+    display: block;
+}
+
+.wake-btn:hover {
+    background: #e3ecfa;
+    color: var(--secondary-color);
+    border: 1.5px solid var(--secondary-color);
 }
 
 .wake-btn.awake {
     background: var(--secondary-color);
     color: #fff;
+    border: none;
     cursor: default;
     pointer-events: none;
+    box-shadow: none;
+    opacity: 1;
+    font-size: 1.15rem;
+    min-height: 65px;
+    width: 100%;
+    border-radius: 32px;
+    transition: background 0.18s, color 0.18s;
+    display: block;
 }
 
-/* Нижняя плашка */
 .comment-container {
     min-height: 130px;
     border-radius: 12px;
