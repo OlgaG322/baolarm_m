@@ -33,7 +33,7 @@ const phrases = {
         "Ты коллекционируешь бессонные ночи\nкак философ — ищешь смысл там,\nгде его нет",
         "Твоя стратегия выживания: «Сон для слабых,\nкофе — для сильных».\nКрепкая позиция... до первого нервного срыва",
         "Только\nв\nпараллельной реальности,\nгде время течет\nпо-другому,\n2 часа ночи равны «еще рано»",
-        "Твоя душа вечна,\nа\nвот нервная система — нет",
+        "Твоя душа вечна,\нa\nвот нервная система — нет",
         "Наблюдаю философский парадокс:\nты хочешь жить полной жизнью,\nно\nметодично сливаешь свою энергию",
         "Твое тело — храм.\nЖаль,\nчто ты его используешь\nкак дешевую круглосуточную забегаловку",
         "Ты живешь так,\nбудто планируешь стать совой\nв\nследующей жизни",
@@ -46,9 +46,9 @@ const phrases = {
         "И снова утро\nв\nстиле импрессионистов:\nразмытые контуры,\nнеясные очертания,\nвсё\nв\nтумане",
         "Провокационная композиция «Мой режим дня» — \nсаморазрушение\nчерез\nнедосып.\nКритики\nв\nрастерянности",
         "Твоя концептуальная инсталляция «Зомби\nна\nработе» получает премию\nза\nреализм",
-        "Перед вами автопортрет\nв\nсостоянии хронического недосыпа.\nМасло,\nкофе,\nотчаяние",
+        "Перед вами автопортрет\nв\nсостоянии хронического недосыпа.\nМасло,\nкофе,\нотчаяние",
         "Серия работ «Недоспанные будни» — исследование границ человеческой глупости",
-        "Инсталляция «Кровать\nкак декорация» — ироничная работа\nо\nпредметах,\nпотерявших свое назначение",
+        "Инсталляция «Кровать\nкак декорация» — ироничная работа\nо\nпредметах,\нпотерявших свое назначение",
         "Ты создал неоклассическую трагедию\nв\nтрех актах: «Не хочу спать», «Хочу спать», «Поздно спать»",
         "Ты практикуешь конструктивизм наоборот:\nразрушаешь структуру сна\nдля\nсоздания хаоса"
     ],
@@ -88,14 +88,6 @@ const timePhrases = [
 let sleepStart = null;
 let alarmTime = null;
 
-function getRandomPhrase(type) {
-    return phrases[type][Math.floor(Math.random() * phrases[type].length)];
-}
-
-function getRandomTimePhrase() {
-    return timePhrases[Math.floor(Math.random() * timePhrases.length)];
-}
-
 // Элементы
 const setAlarmBtn = document.getElementById('setAlarm');
 const alarmPhrase = document.getElementById('alarmPhrase');
@@ -107,6 +99,14 @@ const commentDiv = document.getElementById('comment');
 const wakeBtn = document.getElementById('wakeBtn');
 const sleepBtn = document.getElementById('sleepBtn');
 const sleepStatus = document.getElementById('sleepStatus');
+
+// Вспомогательные функции
+function getRandomPhrase(type) {
+    return phrases[type][Math.floor(Math.random() * phrases[type].length)];
+}
+function getRandomTimePhrase() {
+    return timePhrases[Math.floor(Math.random() * timePhrases.length)];
+}
 
 // Заполнение селекторов времени
 function fillTimeSelects() {
@@ -137,7 +137,7 @@ popupOkBtn.addEventListener('click', () => {
     const minutes = popupMinutes.value.padStart(2, '0');
     alarmTime = `${hours}:${minutes}`;
     timePopup.style.display = 'none';
-    alarmPhrase.textContent = getRandomTimePhrase();
+    alarmPhrase.innerHTML = getRandomTimePhrase().replace(/\n/g, "<br>");
 });
 
 window.addEventListener('click', (event) => {
@@ -159,10 +159,7 @@ wakeBtn.addEventListener('click', () => {
     const sleepDurationHours = sleepDurationMs / 3600000;
     sleepStatus.textContent = 'Не сплю';
     sleepStart = null;
-
-    // Можно добавить отчёт о сне, если нужно:
-    // commentDiv.textContent = `Сон: ${sleepDurationHours.toFixed(2)} ч`;
-    alarmPhrase.textContent = getRandomTimePhrase();
+    alarmPhrase.innerHTML = getRandomTimePhrase().replace(/\n/g, "<br>");
 });
 
 // Часы
@@ -177,7 +174,11 @@ function updateClock() {
 function initApp() {
     updateClock();
     commentDiv.textContent = getRandomPhrase('general');
-    alarmPhrase.textContent = getRandomTimePhrase();
+    alarmPhrase.innerHTML = getRandomTimePhrase().replace(/\n/g, "<br>");
 }
 
 document.addEventListener('DOMContentLoaded', initApp);
+
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service-worker.js');
+}
