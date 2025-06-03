@@ -78,7 +78,7 @@ h1 {
 .controls {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 15px;
     margin: 15px 0;
 }
 
@@ -149,8 +149,8 @@ h1 {
 }
 
 .wake-btn {
-    background: var(--secondary-color);
-    color: #fff;
+    background: #fff;
+    color: var(--primary-color);
     border: none;
     cursor: pointer;
 }
@@ -164,8 +164,8 @@ h1 {
 }
 
 .wake-btn:hover:not(.awake) {
-    background: #1a2c54;
-    color: #fff;
+    background: #e3ecfa;
+    color: var(--secondary-color);
 }
 
 .comment-container {
@@ -176,6 +176,67 @@ h1 {
     margin: 15px 0;
 }
 
+/* Spinner/Stepper стили */
+.spinner-popup {
+    min-width: 210px;
+    padding: 22px 18px 18px 18px;
+    border-radius: 16px;
+    background: #fff;
+    color: #222;
+    box-shadow: 0 8px 32px rgba(30,60,114,0.25);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+}
+
+.spinner-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.spinner-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 7px;
+}
+
+.spinner-btn {
+    background: var(--accent-color);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    width: 36px;
+    height: 32px;
+    font-size: 1.3rem;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+.spinner-btn:hover {
+    background: #d94c4c;
+}
+
+.spinner-value {
+    font-size: 1.5rem;
+    font-family: 'Courier New', monospace;
+    width: 38px;
+    text-align: center;
+    background: #f6f6f6;
+    border-radius: 7px;
+    padding: 2px 0;
+    margin: 0;
+}
+
+.spinner-sep {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #222;
+    padding: 0 6px;
+}
+
 .popup {
     position: fixed;
     top: 0; left: 0; width: 100vw; height: 100vh;
@@ -184,52 +245,6 @@ h1 {
     align-items: center;
     justify-content: center;
     z-index: 1000;
-}
-
-.popup-content {
-    background: #fff;
-    color: #222;
-    padding: 22px 18px 18px 18px;
-    border-radius: 16px;
-    min-width: 220px;
-    box-shadow: 0 8px 32px rgba(30,60,114,0.25);
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    align-items: center;
-}
-
-.popup-content label {
-    font-size: 1.07rem;
-    margin-bottom: 4px;
-    display: flex;
-    align-items: center;
-    gap: 7px;
-}
-
-.popup-content select {
-    font-size: 1.07rem;
-    padding: 4px 8px;
-    border-radius: 6px;
-    border: 1px solid #bbb;
-    background: #f6f6f6;
-    color: #222;
-}
-
-.popup-ok-btn {
-    background: var(--accent-color);
-    color: #fff;
-    border: none;
-    padding: 8px 18px;
-    border-radius: 18px;
-    font-size: 1.07rem;
-    margin-top: 8px;
-    width: auto;
-    min-width: 60px;
-}
-
-.popup-ok-btn:hover {
-    background: #d94c4c;
 }
 
 @media (max-width: 480px) {
