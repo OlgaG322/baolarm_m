@@ -119,6 +119,7 @@ h1 {
     box-sizing: border-box;
     cursor: pointer;
     overflow: hidden;
+    margin: 0;
 }
 
 .alarm-phrase {
@@ -170,6 +171,7 @@ h1 {
     font-weight: normal;
     margin-top: 3px;
     display: block;
+    line-height: 1.1;
 }
 
 .popup {
@@ -223,17 +225,9 @@ h1 {
     background: #d94c4c;
 }
 
-.sleep-btn, .wake-btn {
-    border-radius: 22px;
-    font-size: 1.15rem;
-    padding: 0 18px;
-    min-height: 52px;
+.sleep-btn, .wake-btn, .alarm-btn, .comment-container {
+    margin: 0;
     width: 100%;
-    margin: 0 auto;
-    font-weight: bold;
-    transition: background 0.18s, color 0.18s, border 0.18s, transform 0.18s;
-    box-sizing: border-box;
-    display: block;
 }
 
 .sleep-btn {
