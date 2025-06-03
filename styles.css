@@ -178,10 +178,10 @@ h1 {
     display: block;
 }
 
-.wake-btn:hover {
+.wake-btn:hover:not(.awake) {
     background: #e3ecfa;
     color: var(--secondary-color);
-    border: 1.5px solid var(--secondary-color);
+    border-color: var(--secondary-color);
 }
 
 .wake-btn.awake {
