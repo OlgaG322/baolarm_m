@@ -1,32 +1,25 @@
-const CACHE_NAME = 'baolarm-v4';
+const CACHE_NAME = 'baolarm-v1';
 const ASSETS = [
     '/',
     '/index.html',
     '/styles.css',
     '/script.js',
-    '/manifest.json',
-    '/favicon.png',
-    '/icon-192.png',
     '/icon-512.png',
+    '/notification.mp3',
     '/alarm.mp3',
-    '/notification.mp3'
+    '/manifest.json'
 ];
 
-self.addEventListener('install', (e) => {
-    e.waitUntil(
+self.addEventListener('install', (event) => {
+    event.waitUntil(
         caches.open(CACHE_NAME)
             .then(cache => cache.addAll(ASSETS))
     );
 });
 
-self.addEventListener('fetch', (e) => {
-    e.respondWith(
-        caches.match(e.request)
-            .then(response => response || fetch(e.request))
+self.addEventListener('fetch', (event) => {
+    event.respondWith(
+        caches.match(event.request)
+            .then(response => response || fetch(event.request))
     );
-});
-
-self.addEventListener('notificationclick', (e) => {
-    e.notification.close();
-    clients.openWindow('/');
 });
