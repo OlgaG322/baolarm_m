@@ -92,8 +92,8 @@ h1 {
 .controls {
     display: flex;
     flex-direction: column;
-    gap: 13px;
-    margin: 10px 0 0 0;
+    gap: 18px;
+    margin: 20px 0 0 0;
     align-items: stretch;
 }
 
@@ -126,7 +126,6 @@ h1 {
     width: 100%;
     white-space: pre-line;
 }
-
 .alarm-btn:hover {
     background: #d94c4c;
     transform: scale(1.03);
@@ -195,6 +194,7 @@ h1 {
     box-sizing: border-box;
     display: block;
 }
+
 .sleep-btn {
     background: var(--primary-color);
     color: #fff;
@@ -204,11 +204,31 @@ h1 {
     background: #132a4a;
 }
 .wake-btn {
+    background: #fff;
+    color: var(--primary-color);
+    border: 1.5px solid var(--primary-color);
+    cursor: pointer;
+    font-size: 1.15rem;
+    min-height: 52px;
+    width: 100%;
+    border-radius: 22px;
+    transition: background 0.18s, color 0.18s, border 0.18s;
+    display: block;
+    font-weight: bold;
+}
+.wake-btn:hover {
+    background: #e3ecfa;
+    color: var(--secondary-color);
+    border: 1.5px solid var(--secondary-color);
+}
+.wake-btn.awake {
     background: var(--secondary-color);
     color: #fff;
     border: none;
     cursor: default;
     pointer-events: none;
+    box-shadow: none;
+    opacity: 1;
     font-size: 1.15rem;
     min-height: 52px;
     width: 100%;
@@ -216,8 +236,9 @@ h1 {
     transition: background 0.18s, color 0.18s;
     display: block;
 }
-.wake-btn:hover {
+.wake-btn.awake:hover {
     background: #1a2c54;
+    color: #fff;
 }
 
 .comment-container {
@@ -225,7 +246,7 @@ h1 {
     border-radius: 14px;
     padding: 16px;
     min-height: 70px;
-    margin-top: 13px;
+    margin-top: 18px;
 }
 
 .comment {
