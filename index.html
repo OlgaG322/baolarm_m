@@ -20,15 +20,15 @@
         <main>
             <div class="time-box">
                 <div id="currentTime" class="time-display"></div>
-                <div id="sleepStatus" class="status">Не сплю</div>
+                <div id="sleepStatus" class="status">Не спит</div>
             </div>
 
             <div class="controls">
                 <button id="setAlarm" class="btn alarm-btn">
-                    <span id="alarmPhrase" class="alarm-phrase">В это время<br>я притворюсь, что ложусь спать</span>
+                    <span id="alarmPhrase" class="alarm-phrase">В это время я притворюсь, что ложусь спать</span>
                     <span class="alarm-hover-hint">
-                        Когда спать собираешься?      Нажми и выбери время
-                        <span class="alarm-hover-hint-sub"></span>
+                        Когда спать собираешься?<br>
+                        <span class="alarm-hover-hint-sub">Нажми и выбери время</span>
                     </span>
                 </button>
                 <div id="popupWrap">
@@ -55,8 +55,6 @@
             </div>
         </main>
     </div>
-    <audio id="generalSound" src="notification.mp3" preload="auto"></audio>
-    <audio id="alarmSound" src="alarm.mp3" preload="auto"></audio>
     <script src="script.js"></script>
 </body>
 </html>
