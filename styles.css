@@ -98,6 +98,7 @@ h1 {
 }
 
 .alarm-btn {
+    position: relative;
     background: var(--accent-color);
     color: #fff;
     border: none;
@@ -111,24 +112,64 @@ h1 {
     align-items: center;
     justify-content: center;
     text-align: center;
-    position: relative;
     transition: background 0.18s, color 0.18s, border 0.18s, transform 0.18s;
     word-break: break-word;
     white-space: normal;
     line-height: 1.2;
     box-sizing: border-box;
     cursor: pointer;
+    overflow: hidden;
 }
+
 .alarm-phrase {
     flex: 1 1 auto;
     text-align: center;
     display: block;
     width: 100%;
     white-space: pre-line;
+    z-index: 1;
+    transition: opacity 0.18s;
 }
+
+.alarm-btn .alarm-hover-hint {
+    display: none;
+    position: absolute;
+    left: 0; top: 0; right: 0; bottom: 0;
+    background: var(--primary-color);
+    color: #fff;
+    border-radius: 22px;
+    font-size: 1.09rem;
+    font-weight: bold;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 2;
+    padding: 0 12px;
+    transition: opacity 0.18s;
+    cursor: pointer;
+    white-space: pre-line;
+}
+
 .alarm-btn:hover {
-    background: #d94c4c;
-    transform: scale(1.03);
+    background: var(--primary-color);
+    color: #fff;
+}
+
+.alarm-btn:hover .alarm-phrase {
+    opacity: 0;
+}
+
+.alarm-btn:hover .alarm-hover-hint {
+    display: flex;
+    flex-direction: column;
+    opacity: 1;
+}
+
+.alarm-hover-hint-sub {
+    font-size: 0.97rem;
+    font-weight: normal;
+    margin-top: 3px;
+    display: block;
 }
 
 .popup {
