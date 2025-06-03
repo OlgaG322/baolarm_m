@@ -35,7 +35,7 @@ body {
 }
 
 header {
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     margin-top: 0;
 }
 
@@ -58,7 +58,7 @@ h1 {
 
 .subtitle-bold {
     font-size: 1.15rem;
-    margin: 0 0 2px 0;
+    margin: 0 0 4px 0;
     color: #fff;
     font-weight: bold;
     letter-spacing: 0.03em;
@@ -67,9 +67,9 @@ h1 {
 
 .time-box {
     background: rgba(255,255,255,0.10);
-    border-radius: 12px;
-    padding: 10px 0 8px 0;
-    margin: 10px 0 14px 0;
+    border-radius: 13px;
+    padding: 12px 0 10px 0;
+    margin: 10px 0 12px 0;
     box-sizing: border-box;
 }
 
@@ -95,8 +95,8 @@ h1 {
 .controls {
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    margin: 15px 0 0 0;
+    gap: 10px;
+    margin: 10px 0 0 0;
     align-items: stretch;
 }
 
@@ -107,9 +107,9 @@ h1 {
     border: none;
     width: 100%;
     min-height: 68px;
-    padding: 0 18px;
-    border-radius: 22px;
-    font-size: 1.22rem;
+    padding: 0 20px;
+    border-radius: 26px;
+    font-size: 1.25rem;
     font-weight: bold;
     display: flex;
     align-items: center;
@@ -141,19 +141,27 @@ h1 {
     left: 0; top: 0; right: 0; bottom: 0;
     background: var(--primary-color);
     color: #fff;
-    border-radius: 22px;
-    font-size: 1.12rem;
+    border-radius: 26px;
+    font-size: 1.13rem;
     font-weight: bold;
     z-index: 2;
-    padding: 0 12px;
+    padding: 0 15px;
     transition: opacity 0.18s;
     cursor: pointer;
     white-space: pre-line;
-    line-height: 1.2;
+    line-height: 1.3;
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
+    flex-direction: column;
+}
+
+.alarm-hover-hint-sub {
+    font-size: 0.97rem;
+    font-weight: normal;
+    margin-top: 2px;
+    display: block;
 }
 
 .alarm-btn:hover {
@@ -183,7 +191,7 @@ h1 {
     background: #fff;
     color: #222;
     padding: 22px 18px 18px 18px;
-    border-radius: 16px;
+    border-radius: 13px;
     min-width: 220px;
     box-shadow: 0 8px 32px rgba(30,60,114,0.25);
     display: flex;
@@ -211,7 +219,7 @@ h1 {
     color: #fff;
     border: none;
     padding: 8px 18px;
-    border-radius: 18px;
+    border-radius: 15px;
     font-size: 1.07rem;
     margin-top: 8px;
     width: auto;
@@ -227,13 +235,17 @@ h1 {
     box-sizing: border-box;
 }
 
+.sleep-btn, .wake-btn {
+    font-size: 1.15rem;
+    min-height: 62px;
+    border-radius: 24px;
+    font-weight: 800;
+}
+
 .sleep-btn {
     background: var(--primary-color);
     color: #fff;
     border: none;
-    font-size: 1.15rem;
-    min-height: 52px;
-    border-radius: 22px;
 }
 .sleep-btn:hover {
     background: #132a4a;
@@ -243,13 +255,8 @@ h1 {
     color: var(--primary-color);
     border: 1.5px solid var(--primary-color);
     cursor: pointer;
-    font-size: 1.15rem;
-    min-height: 52px;
-    width: 100%;
-    border-radius: 22px;
     transition: background 0.18s, color 0.18s, border 0.18s;
     display: block;
-    font-weight: bold;
 }
 .wake-btn:hover {
     background: #e3ecfa;
@@ -264,11 +271,8 @@ h1 {
     pointer-events: none;
     box-shadow: none;
     opacity: 1;
-    font-size: 1.15rem;
-    min-height: 52px;
-    width: 100%;
-    border-radius: 22px;
-    transition: background 0.18s, color 0.18s;
+    min-height: 62px;
+    border-radius: 24px;
     display: block;
 }
 .wake-btn.awake:hover {
@@ -278,11 +282,11 @@ h1 {
 
 .comment-container {
     background: rgba(255,255,255,0.13);
-    border-radius: 14px;
+    border-radius: 13px;
     padding: 16px 10px;
     min-height: 110px;
     height: 110px;
-    margin-top: 15px;
+    margin-top: 10px;
     box-sizing: border-box;
     width: 100%;
     overflow-wrap: break-word;
