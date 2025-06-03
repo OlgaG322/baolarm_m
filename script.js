@@ -77,7 +77,7 @@ const timePhrases = [
     "Моя очередная попытка лечь пораньше",
     "Буду в кровати... ну, типа",
     "Я укажу время, а организм\nвсё равно проигнорирует",
-    "Планирую заснуть к этому времени (но это не точно)",
+    "Планирую заснуть к этому времени\n(но это не точно)",
     "В это время обещаю себе считать овец",
     "Попробую удивить себя и\nлечь спать вовремя",
     "Установить время для вечерних самообманов",
@@ -87,9 +87,6 @@ const timePhrases = [
 
 let sleepStart = null;
 let alarmTime = null;
-const generalSound = new Audio('notification.mp3');
-const alarmSound = new Audio('alarm.mp3');
-let notificationInterval = null;
 
 function getRandomPhrase(type) {
     return phrases[type][Math.floor(Math.random() * phrases[type].length)];
@@ -99,79 +96,7 @@ function getRandomTimePhrase() {
     return timePhrases[Math.floor(Math.random() * timePhrases.length)];
 }
 
-function playSoundRepeatedly(audio, times) {
-    let count = 0;
-    const playSound = () => {
-        if (count < times) {
-            audio.currentTime = 0;
-            audio.play();
-            count++;
-            audio.onended = playSound;
-        }
-    };
-    playSound();
-}
-
-function updateClock() {
-    const now = new Date();
-    document.getElementById('currentTime').textContent = 
-        now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
-    checkAlarm(now);
-    checkMidnight(now);
-    setTimeout(updateClock, 1000);
-}
-
-function requestNotifications() {
-    if ('Notification' in window) {
-        Notification.requestPermission();
-    }
-}
-
-function startBackgroundChecks() {
-    notificationInterval = setInterval(() => {
-        if (Notification.permission === 'granted') {
-            new Notification(getRandomPhrase('general'));
-            playSoundRepeatedly(generalSound, 3);
-        }
-    }, 60 * 1000);
-    setInterval(checkMidnight, 60 * 60 * 1000);
-}
-
-function checkAlarm(now) {
-    if (alarmTime && now >= alarmTime) {
-        triggerAlarm();
-        alarmTime = null;
-    }
-}
-
-function checkMidnight(now = new Date()) {
-    if (now.getHours() === 0 && now.getMinutes() === 0 && !sleepStart) {
-        showMidnightNotification();
-    }
-}
-
-function triggerAlarm() {
-    playSoundRepeatedly(alarmSound, 3);
-    if (navigator.vibrate) navigator.vibrate([1000, 500, 1000]);
-    if (Notification.permission === 'granted') {
-        new Notification('Пора вставать!', {
-            body: getRandomPhrase('general'),
-            icon: 'icon-192.png'
-        });
-    }
-}
-
-function showMidnightNotification() {
-    if (Notification.permission === 'granted') {
-        new Notification('Полночь!', {
-            body: 'Ты ещё не лёг спать! ' + getRandomPhrase('general'),
-            icon: 'icon-192.png'
-        });
-    }
-}
-
-// --- POPUP LOGIC ---
-
+// Элементы
 const setAlarmBtn = document.getElementById('setAlarm');
 const alarmPhrase = document.getElementById('alarmPhrase');
 const timePopup = document.getElementById('timePopup');
@@ -183,6 +108,7 @@ const wakeBtn = document.getElementById('wakeBtn');
 const sleepBtn = document.getElementById('sleepBtn');
 const sleepStatus = document.getElementById('sleepStatus');
 
+// Заполнение селекторов времени
 function fillTimeSelects() {
     popupHours.innerHTML = '';
     popupMinutes.innerHTML = '';
@@ -201,6 +127,7 @@ function fillTimeSelects() {
 }
 fillTimeSelects();
 
+// Обработчики
 setAlarmBtn.addEventListener('click', () => {
     timePopup.style.display = 'flex';
 });
@@ -208,10 +135,9 @@ setAlarmBtn.addEventListener('click', () => {
 popupOkBtn.addEventListener('click', () => {
     const hours = popupHours.value.padStart(2, '0');
     const minutes = popupMinutes.value.padStart(2, '0');
-    const now = new Date();
-    alarmTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes);
+    alarmTime = `${hours}:${minutes}`;
     timePopup.style.display = 'none';
-    alarmPhrase.textContent = `Дедлайн сна: ${hours}:${minutes}`;
+    alarmPhrase.textContent = getRandomTimePhrase();
 });
 
 window.addEventListener('click', (event) => {
@@ -220,47 +146,38 @@ window.addEventListener('click', (event) => {
     }
 });
 
+sleepBtn.addEventListener('click', () => {
+    sleepStart = new Date();
+    sleepStatus.textContent = 'Сплю';
+    alarmPhrase.textContent = `Дедлайн: ${alarmTime || '--:--'}`;
+    commentDiv.textContent = getRandomPhrase('general');
+});
+
 wakeBtn.addEventListener('click', () => {
     if (!sleepStart) return;
     const sleepDurationMs = new Date() - sleepStart;
     const sleepDurationHours = sleepDurationMs / 3600000;
     sleepStatus.textContent = 'Не сплю';
-    sleepStatus.classList.remove('spit');
-    sleepStatus.classList.add('nespit');
-    playSoundRepeatedly(alarmSound, 3);
-    if (navigator.vibrate) navigator.vibrate([500, 200, 500]);
     sleepStart = null;
 
-    // Показываем отчёт внутри кнопки
-    wakeBtn.textContent = `Сон: ${sleepDurationHours.toFixed(2)} ч`;
-    wakeBtn.classList.add('awake');
-});
-
-sleepBtn.addEventListener('click', () => {
-    sleepStart = new Date();
-    sleepStatus.textContent = 'Сплю';
-    sleepStatus.classList.remove('nespit');
-    sleepStatus.classList.add('spit');
-    commentDiv.textContent = getRandomPhrase('general');
-    // Кнопка снова становится активной
-    wakeBtn.textContent = 'Я проснулся!';
-    wakeBtn.classList.remove('awake');
-    // Вернуть случайную короткую фразу для розовой кнопки
+    // Можно добавить отчёт о сне, если нужно:
+    // commentDiv.textContent = `Сон: ${sleepDurationHours.toFixed(2)} ч`;
     alarmPhrase.textContent = getRandomTimePhrase();
 });
 
+// Часы
+function updateClock() {
+    const now = new Date();
+    document.getElementById('currentTime').textContent =
+        now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+    setTimeout(updateClock, 1000);
+}
+
+// Инициализация
 function initApp() {
     updateClock();
-    requestNotifications();
     commentDiv.textContent = getRandomPhrase('general');
-    startBackgroundChecks();
     alarmPhrase.textContent = getRandomTimePhrase();
 }
 
 document.addEventListener('DOMContentLoaded', initApp);
-
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('service-worker.js')
-        .then(reg => console.log('Service Worker зарегистрирован'))
-        .catch(err => console.error('Ошибка регистрации SW:', err));
-}
