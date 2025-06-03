@@ -97,6 +97,16 @@ let alarmTime = null;
 const generalSound = new Audio('notification.mp3');
 const alarmSound = new Audio('alarm.mp3');
 
+// Stepper/Spinner значения
+let spinnerHours = 23;
+let spinnerMinutes = 0;
+
+// Обновление отображения спиннера
+function updateSpinnerDisplay() {
+    document.getElementById('hoursVal').textContent = spinnerHours.toString().padStart(2, '0');
+    document.getElementById('minutesVal').textContent = spinnerMinutes.toString().padStart(2, '0');
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     initClock();
     initButtons();
@@ -112,25 +122,32 @@ function initClock() {
 }
 
 function initButtons() {
-    const popupHours = document.getElementById('popupHours');
-    const popupMinutes = document.getElementById('popupMinutes');
-    
-    // Заполнение селекторов времени
-    for (let h = 0; h < 24; h++) {
-        popupHours.innerHTML += `<option value="${h}">${h.toString().padStart(2, '0')}</option>`;
-    }
-    for (let m = 0; m < 60; m += 5) {
-        popupMinutes.innerHTML += `<option value="${m}">${m.toString().padStart(2, '0')}</option>`;
-    }
+    // Stepper/Spinner обработчики
+    document.getElementById('hoursUp').onclick = () => {
+        spinnerHours = (spinnerHours + 1) % 24;
+        updateSpinnerDisplay();
+    };
+    document.getElementById('hoursDown').onclick = () => {
+        spinnerHours = (spinnerHours + 23) % 24;
+        updateSpinnerDisplay();
+    };
+    document.getElementById('minutesUp').onclick = () => {
+        spinnerMinutes = (spinnerMinutes + 5) % 60;
+        updateSpinnerDisplay();
+    };
+    document.getElementById('minutesDown').onclick = () => {
+        spinnerMinutes = (spinnerMinutes + 55) % 60;
+        updateSpinnerDisplay();
+    };
 
-    // Обработчики событий
     document.getElementById('setAlarm').addEventListener('click', () => {
+        updateSpinnerDisplay();
         document.getElementById('timePopup').style.display = 'flex';
     });
 
     document.getElementById('popupOkBtn').addEventListener('click', () => {
-        const hours = popupHours.value.padStart(2, '0');
-        const minutes = popupMinutes.value.padStart(2, '0');
+        const hours = spinnerHours.toString().padStart(2, '0');
+        const minutes = spinnerMinutes.toString().padStart(2, '0');
         alarmTime = `${hours}:${minutes}`;
         document.getElementById('alarmPhrase').textContent = `Дедлайн: ${alarmTime}`;
         document.getElementById('alarmPhrase').style.textAlign = 'center';
@@ -143,9 +160,8 @@ function initButtons() {
     document.getElementById('sleepBtn').addEventListener('click', () => {
         if (!alarmTime) return;
         sleepStart = new Date();
-        document.getElementById('alarmPhrase').textContent = 
-            sarcasticButtonLabels[Math.floor(Math.random() * sarcasticButtonLabels.length)];
-        document.getElementById('alarmPhrase').style.textAlign = 'center';
+        setRandomButtonLabel();
+        resetWakeButton();
         document.getElementById('sleepStatus').textContent = 'Спит';
         document.getElementById('comment').textContent = getRandomPhrase('general');
     });
@@ -176,41 +192,4 @@ function initButtons() {
 
     // Закрытие попапа при клике вне его
     window.addEventListener('click', (event) => {
-        if (event.target === document.getElementById('timePopup')) {
-            document.getElementById('timePopup').style.display = 'none';
-        }
-    });
-}
-
-function resetWakeButton() {
-    const btn = document.getElementById('wakeBtn');
-    btn.textContent = 'Я проснулся!';
-    btn.classList.remove('awake');
-    btn.style.background = "var(--secondary-color)";
-    btn.style.color = "#fff";
-    btn.style.border = "none";
-    btn.style.cursor = "pointer";
-    btn.style.pointerEvents = "auto";
-    btn.onmouseenter = function() { btn.style.background = "#1a2c54"; };
-    btn.onmouseleave = function() { btn.style.background = "var(--secondary-color)"; };
-}
-
-function getRandomPhrase(type) {
-    return phrases[type][Math.floor(Math.random() * phrases[type].length)];
-}
-
-function playSound(audio) {
-    try {
-        audio.currentTime = 0;
-        audio.play();
-    } catch(e) {}
-}
-
-function requestNotifications() {
-    if ('Notification' in window) {
-        Notification.requestPermission();
-    }
-}
-
-function sendPush(title, body) {
-    if ('Notification' in window && Notification.permission ===
+        if
