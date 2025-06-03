@@ -279,13 +279,12 @@ h1 {
 .comment-container {
     background: rgba(255,255,255,0.13);
     border-radius: 14px;
-    padding: 16px;
+    padding: 16px 10px; /* 16px сверху/снизу, 10px слева/справа */
     min-height: 70px;
     margin-top: 18px;
     box-sizing: border-box;
     width: 100%;
     overflow-wrap: break-word;
-    /* Убираем лишние margin/padding/width, чтобы не вылезало за контейнер */
 }
 
 .comment {
