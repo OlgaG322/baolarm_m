@@ -142,7 +142,7 @@ h1 {
     background: var(--primary-color);
     color: #fff;
     border-radius: 22px;
-    font-size: 1.09rem;
+    font-size: 1.12rem;
     font-weight: bold;
     z-index: 2;
     padding: 0 12px;
@@ -151,8 +151,7 @@ h1 {
     white-space: pre-line;
     line-height: 1.2;
     display: flex;
-    flex-direction: column;
-    justify-content: center; /* Центрирование по вертикали */
+    justify-content: center;
     align-items: center;
     text-align: center;
 }
@@ -169,14 +168,6 @@ h1 {
 .alarm-btn:hover .alarm-hover-hint {
     display: flex;
     opacity: 1;
-}
-
-.alarm-hover-hint-sub {
-    font-size: 0.97rem;
-    font-weight: normal;
-    margin-top: 0;
-    line-height: 1.1;
-    display: block;
 }
 
 .popup {
