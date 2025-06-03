@@ -33,15 +33,20 @@
                 </button>
                 <div id="popupWrap">
                     <div id="timePopup" class="popup" style="display:none;">
-                        <div class="popup-content">
-                            <label>
-                                Часы:
-                                <select id="popupHours"></select>
-                            </label>
-                            <label>
-                                Минуты:
-                                <select id="popupMinutes"></select>
-                            </label>
+                        <div class="popup-content spinner-popup">
+                            <div class="spinner-row">
+                                <div class="spinner-col">
+                                    <button class="spinner-btn" id="hoursUp">▲</button>
+                                    <div class="spinner-value" id="hoursVal">23</div>
+                                    <button class="spinner-btn" id="hoursDown">▼</button>
+                                </div>
+                                <span class="spinner-sep">:</span>
+                                <div class="spinner-col">
+                                    <button class="spinner-btn" id="minutesUp">▲</button>
+                                    <div class="spinner-value" id="minutesVal">00</div>
+                                    <button class="spinner-btn" id="minutesDown">▼</button>
+                                </div>
+                            </div>
                             <button id="popupOkBtn" class="btn popup-ok-btn">ОК</button>
                         </div>
                     </div>
